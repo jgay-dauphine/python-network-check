@@ -13,6 +13,7 @@ This script test the following things :
 * nslookup special website (need configuration inside)
 
 ## Example of output
+~~~
 Ping 127.0.0.1 ... OK
 Ping Gateway (192.168.0.1) ... OK
 Ping 8.8.8.8 ... OK
@@ -20,6 +21,7 @@ Ping 192.168.0.1  ... OK
 Nslookup www.google.com ... OK
 Nslookup www.google.com ... OK
 Appuyez sur une touche pour continuer...
+~~~
 
 ## Installation
 
