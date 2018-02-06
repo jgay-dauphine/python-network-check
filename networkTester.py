@@ -130,3 +130,4 @@ else:
 
 
 print "Tout les tests sont OK, ce n'est pas un soucis reseau..."
+pause()
