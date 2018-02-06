@@ -5,6 +5,8 @@ from platform import system as system_name
 from subprocess import check_output
 from xml.etree.ElementTree import fromstring
 
+def pause():
+    system_call("PAUSE" if system_name().lower() == "windows" else "pause")
 
 def ping(host):
     """returns True if the host (str) respond to ping, False otherwise"""
@@ -45,9 +47,22 @@ def getNics() :
 
     return nics
 
+def getMyIp():
+    nics = getNics()
+    print nics
+    i = 0
+    while i < len(nics) and len(nics[i]["gateway"]) == 0:
+        i = i + 1
+    ip = nics[i]["ip"][0]
+    return ip
+
 def getGateway():
     nics = getNics()
-    gw = nics[0]["gateway"][0]
+    print nics
+    i = 0
+    while i < len(nics) and len(nics[i]["gateway"]) == 0:
+        i = i + 1
+    gw = nics[i]["gateway"][0]
     return gw
 
 def nslookup(name):
@@ -63,6 +78,7 @@ if ping("127.0.0.1"):
     print "Ping 127.0.0.1 ... OK"
 else:
     print "Ping 127.0.0.1 ... NOK ==> Stop du test"
+    pause()
     exit()
 
 # Ping passerelle
@@ -71,6 +87,7 @@ if ping(gw):
     print "Ping Gateway (" +gw+ ") ... OK"
 else:
     print "Ping Gateway (" +gw+ ") ... NOK => Stop du test"
+    pause()
     exit()
 
 # Ping 8.8.8.8
@@ -78,15 +95,18 @@ if ping("8.8.8.8"):
     print "Ping 8.8.8.8 ... OK"
 else:
     print "Ping 8.8.8.8 ... NOK ==> Stop du test"
+    pause()
     exit()
 
 # Ping IP particuliere
-ip = '192.168.0.1'
+# CONFIG : A modifier pour avoir une IP precise...
+ip = getMyIp()
 if ip and not ip == '':
     if ping(ip):
         print "Ping", ip, " ... OK"
     else:
         print "Ping", ip,  " ... OK ==> Stop du test"
+        pause()
         exit()
 
 # nslookup google
@@ -95,14 +115,18 @@ if nslookup(name):
     print "Nslookup", name, "... OK"
 else:
     print "Nslookup", name, "... NOK ==> Stop du test"
+    pause()
     exit()
 
 # nslookup site
+# CONFIG : A modifier pour tester un site particulier...
 name = "www.google.com"
 if nslookup(name):
     print "Nslookup", name, "... OK"
 else:
     print "Nslookup", name, "... NOK ==> Stop du test"
+    pause()
     exit()
 
-system_call("PAUSE" if system_name().lower() == "windows" else "pause")
+
+print "Tout les tests sont OK, ce n'est pas un soucis reseau..."
